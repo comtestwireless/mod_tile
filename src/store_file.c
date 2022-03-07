@@ -305,7 +305,6 @@ static int file_close_storage(struct storage_backend * store)
 
 struct storage_backend * init_storage_file(const char * tile_dir)
 {
-
 	struct storage_backend * store = malloc(sizeof(struct storage_backend));
 
 	if (store == NULL) {
@@ -313,8 +312,14 @@ struct storage_backend * init_storage_file(const char * tile_dir)
 		return NULL;
 	}
 
-	store->storage_ctx = strdup(tile_dir);
+    init_storage_file_s(store, strdup(tile_dir));
 
+	return store;
+}
+
+void init_storage_file_s(struct storage_backend * store, const char * tile_dir)
+{
+	store->storage_ctx = tile_dir;
 	store->tile_read = &file_tile_read;
 	store->tile_stat = &file_tile_stat;
 	store->metatile_write = &file_metatile_write;
@@ -322,6 +327,4 @@ struct storage_backend * init_storage_file(const char * tile_dir)
 	store->metatile_expire = &file_metatile_expire;
 	store->tile_storage_id = &file_tile_storage_id;
 	store->close_storage = &file_close_storage;
-
-	return store;
 }

@@ -141,3 +141,13 @@ install-mod_tile:
 			@srcdir@/src/store_ro_composite.c \
 			@srcdir@/src/store_null.c \
 			@srcdir@/src/g_logger.c
+
+install-mod_tile_lite:
+	$(APXS) -S LIBEXECDIR=$(DESTDIR)`$(APXS) \
+	-q LIBEXECDIR` -c -i $(DEF_LDLIBS) $(AM_CFLAGS) \
+	$(subst -pthread,-Wc$(COMMA)-pthread,$(GLIB_CFLAGS)) \
+	-I@srcdir@/includes $(AM_LDFLAGS) $(STORE_LDFLAGS) \
+		@srcdir@/src/mod_tile_lite.c \
+		@srcdir@/src/store_file.c \
+		@srcdir@/src/store_file_utils.c \
+		@srcdir@/src/g_logger.c
