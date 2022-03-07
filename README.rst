@@ -175,6 +175,26 @@ directory for more efficient access patterns.
 Apache serves the files as if they were present under
 ``/[TileSetName]/Z/X/Y.png`` with the path being converted automatically.
 
+``mod_tile_lite``
+-----------------------
+
+Not al maps are meant to be dynamic. Still the storage system developed for mod_tile is much more efficient than a naive file tree with all the tiles.
+
+For this reason, ``mod_tile_lite`` is a stripped-down version of ``mod_tile`` which just ignores all the rendering part.
+
+This results in a simpler extension without any dependency (``mapnik``/``renderd``) and with good overall performance.
+
+The main difference is also that all the configuration is done through Apache Http configuration capabilities (switching from server configuration to context-aware one). The directives that can be specified are:
+
+* ``ModTileLiteTileDir`` just like the original one, but can be overridden from ``<Location>`` ``<Directory>``, etc.. contexts.
+* ``ModTileLiteEnableMap`` enables map serving in the context. Its only parameter is the name of the map. This would be an entry in the renderd conf file.
+* ``ModTileLiteCacheDurationMax`` just like the original one, but can be overridden from ``<Location>`` ``<Directory>``, etc.. contexts.
+* ``ModTileLiteCacheDurationMinimum`` just like the original one, but can be overridden from ``<Location>`` ``<Directory>``, etc.. contexts.
+* ``ModTileLiteCacheDurationLowZoom`` just like the original one, but can be overridden from ``<Location>`` ``<Directory>``, etc.. contexts.
+* ``ModTileLiteCacheDurationMediumZoom`` just like the original one, but can be overridden from ``<Location>`` ``<Directory>``, etc.. contexts.
+* ``ModTileLiteZoomRange`` Sets the minimum and maximum zoom levels (default ``0 20``)
+* ``ModTileLiteFileType`` Set extension and mime type for the tiles (default ``png image/png``)
+
 Notes about performance
 -----------------------
 
