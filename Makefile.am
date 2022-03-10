@@ -18,6 +18,9 @@ STORE_LDFLAGS = $(LIBMEMCACHED_LDFLAGS) $(LIBRADOS_LDFLAGS) $(LIBCURL) $(GLIB_LI
 
 STORE_CPPFLAGS =
 
+LITE_CFLAGS = $(GLIB_CFLAGS)
+LITE_LDFLAGS = $(GLIB_LIBS)
+
 bin_PROGRAMS = \
 	renderd \
 	render_expired \
@@ -144,9 +147,8 @@ install-mod_tile:
 
 install-mod_tile_lite:
 	$(APXS) -S LIBEXECDIR=$(DESTDIR)`$(APXS) \
-	-q LIBEXECDIR` -c -i $(DEF_LDLIBS) $(AM_CFLAGS) \
-	$(subst -pthread,-Wc$(COMMA)-pthread,$(GLIB_CFLAGS)) \
-	-I@srcdir@/includes $(AM_LDFLAGS) $(STORE_LDFLAGS) \
+	-q LIBEXECDIR` -c -i $(AM_CFLAGS) $(LITE_CFLAGS) \
+	-I@srcdir@/includes $(LITE_LDFLAGS) \
 		@srcdir@/src/mod_tile_lite.c \
 		@srcdir@/src/store_file.c \
 		@srcdir@/src/store_file_utils.c \
